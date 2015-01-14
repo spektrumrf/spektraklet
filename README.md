@@ -16,5 +16,23 @@ There are both optional and mandatory commands here's a list of all commands (wi
 ```
 #!latex
 
-\titlepage
+\titlepage{arg1}{arg2}{arg3}
+\titlepage{arg1}{arg2}{arg3}[arg4_opt]
+
+% arg1       =   Current letter number, shown on the front page
+% arg2       =   Width of the cover image
+% arg3       =   path to the cover image
+% arg4_opt   =   dx, dy     offset of the cover image
+
+% example:
+\titlepage{1}{\paperwidth}{images/cover.jpg}[1cm, 2cm]
+```
+```
+#!latex
+\contentpage
+```
+```
+#!latex
+\lastpage{arg1}{arg2}{arg3}
+\lastpage{arg1}{arg2}{arg3}[arg4_opt]
 ```
