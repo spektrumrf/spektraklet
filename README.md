@@ -1,29 +1,20 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is a simple way of generating the members letter for Spektrum rf.
 
-### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Usage ##
 
-### How do I get set up? ###
+To use this custom class you'll have to either add the spektraklet.cls to your latex installation or adding it to the project you are using.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+## Commands ##
 
-* Writing tests
-* Code review
-* Other guidelines
+There are both optional and mandatory commands here's a list of all commands (with alternative arguments listed as different entries):
 
-### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+```
+#!latex
+
+\titlepage
+```
