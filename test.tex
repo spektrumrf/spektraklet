@@ -1,0 +1,94 @@
+\documentclass{spektraklet}
+
+
+\begin{document}
+
+%----------------------------------------------------------------------
+%	arguments:
+%		#1	publication number (eg. 1/2015, 2/2015, 3/2015 etc.),
+%			the year is filled in programatically.
+%
+%		#2	the width of the cover image
+%
+%		#3	the path to the cover image
+%
+%		#4	optional argument with offsets for the cover image
+%----------------------------------------------------------------------
+\titlepage{1}{\paperwidth}{images/shanghai.jpg}[0, -1cm]
+%\titlepage{1}{0.75\linewidth}{images/dog.jpg}
+
+
+
+%----------------------------------------------------------------------
+%	There are a couple of fields in the content page that is changable,
+%	and some of them are mandatory. The default values are defined in
+%	the 'spektraklet.cls' file.
+%
+%	Mandator:
+%		\ChiefEditor{name}
+%		\ManagingEditor{name}
+%		\Editors{name1\\name2\\name3}	the last name shouldn't be followed by a \\
+%
+%	Optional:							Default value:
+%		\PublicationInformation[text]		är ett språkrör för de som studerar - eller låter bli
+%											att studera - matematik, fysik, kemi eller datavetenskap
+%											på svenska vid Helsingfors universitet
+%		\PublicationSupport[text]			Spektraklet får HUS-stöd för föreningstidningar
+%		\PublisherName[text]				Spektrum rf
+%		\PublisherAddress[text]				Kemiska institutionens svenska avdelning
+%		\PublisherPostalOfficeBox[text]		PB 55
+%		\PublisherPostalCode[text]			00014 Helsingfors universitet
+%----------------------------------------------------------------------
+\ChiefEditor{Sandra Kulla}
+\ManagingEditor{Jeremias Berg}
+\Editors{
+Sebastian Björkqvist\\
+Jere Mannisto\\
+Susanna Liesipohja\\
+Kadri Kiilas\\
+Robert Mäkitie\\
+Annaleena Rajala
+}
+\CoverPageAuthor{Sandra Kulla}
+
+% Include the content page.
+\contentpage
+
+
+
+
+\begin{article}{Ledaren}{Sandra}
+
+God jul på er alla!
+
+Nu är det jul igen och nu är det jul igen och julen varar väl till påska, ock så vidare. Tenterna är snart skrivna och många far hem till sina familjer för att tillbringa julen med dem. Julen är en tid för gemenskap och stillhet. Även i Spektrum firas det lite jul, i form av julfest, med mycket gemenskap och lite mindre stillhet.
+
+Det att julen närmar sig betyder också att det nya året är på väg, vilket i sin tur betyder att en ny styrelse snart ska få ta över ansvaret inom Spektrum.
+
+\end{article}
+
+
+
+
+\begin{article}{Helan går}{Toffe}
+
+\end{article}
+
+
+
+\subsection{Subsection}
+
+\subsubsection{Sub-sub-section}
+
+\newpage
+hej
+\newpage
+hej
+
+%----------------------------------------------------------------------
+%	This command prints the publisher information on one line with
+%	all fields separated by 'bullets'.
+%----------------------------------------------------------------------
+\lastpage{0.9\textwidth}{images/dog.jpg}
+
+\end{document}
