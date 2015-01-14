@@ -16,6 +16,10 @@ There are both optional and mandatory commands here's a list of all commands (wi
 ```
 #!latex
 
+% The front page, showing the name and the yearly number of the letter.
+% A cover image should also be included. This cover page is possible to move
+% around with offsets in both directions for more control.
+
 \titlepage{arg1}{arg2}{arg3}
 \titlepage{arg1}{arg2}{arg3}[arg4_opt]
 
