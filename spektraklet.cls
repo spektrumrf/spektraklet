@@ -84,12 +84,13 @@
 % It shows a message with how many pages there currently is if an
 % error occurs.
 \AfterEndDocument{
-	if
-	\pgfmathparse{mod(\thepage - 1,4)==0}
-    \ifnum \pgfmathresult=1
-    \else
-    	\pgfmathparse{\thepage - 1}
-    	\ClassError{- The page count (\pgfmathresult) isn't dividable by four (4) -}
+	\if@pagecheck
+		\pgfmathparse{mod(\thepage - 1,4)==0}
+	    \ifnum \pgfmathresult=1
+	    \else
+	    	\pgfmathparse{\thepage - 1}
+	    	\ClassError{- The page count (\pgfmathresult) isn't dividable by four (4) -}
+    \fi
     \fi
 }
 
