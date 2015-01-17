@@ -16,7 +16,6 @@
 \RequirePackage[utf8]{inputenc}
 
 \RequirePackage{etoolbox}
-\RequirePackage{lmodern}
 
 \RequirePackage[top=2.5cm, bottom=2.5cm, left=1cm, right=1cm]{geometry}
 \RequirePackage{needspace}% Prevent page break after a sectioning command
@@ -31,16 +30,10 @@
 \RequirePackage{tikz}
 \usetikzlibrary{
 	calc,
-	decorations.pathmorphing,
-	fadings,
-	shadows,
-	shapes.geometric,
-	shapes.misc,
 	positioning,
 }
 
 \RequirePackage{wrapfig}
-
 
 \RequirePackage{multicol}
 
@@ -49,6 +42,12 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Options
+
+%% Toggle page check
+\newif\if@pagecheck\@pagecheckfalse
+\DeclareOption{pagecheck}{
+	\@pagechecktrue
+}
 
 %%% Toggle reflection
 %\newif\if@mirrors\@mirrorsfalse
@@ -61,13 +60,13 @@
 %\DeclareOption{red}{
 %	\@redtrue
 %}
-%
-%\ExecuteOptions{}
-%\ProcessOptions\relax
+
+\ExecuteOptions{}
+\ProcessOptions\relax
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Configuration
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -78,15 +77,6 @@
 \colorlet{titlefg}{White}
 \colorlet{sectionfg}{Black}
 
-%\if@red
-%\colorlet{toctitle}{DarkGray!50!black}
-%\colorlet{titlebg}{DarkRed}
-%\colorlet{titlefg}{FireBrick!50}
-%\colorlet{titletxt}{DarkRed}
-%\colorlet{sectionfg}{DarkRed}
-%\colorlet{subsectionfg}{Crimson!50!black}
-%\colorlet{subsubsectionfg}{LightSteelBlue!60!black}
-%\fi
 
 
 
@@ -94,6 +84,7 @@
 % It shows a message with how many pages there currently is if an
 % error occurs.
 \AfterEndDocument{
+	if
 	\pgfmathparse{mod(\thepage - 1,4)==0}
     \ifnum \pgfmathresult=1
     \else
@@ -102,7 +93,7 @@
     \fi
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Header and Footer
 
 \tikzstyle{foliostyle}=[fill=Lavender, text=MidnightBlue, inner sep=5pt, semicircle]
@@ -122,10 +113,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Table of contents
 
-\renewcommand*\l@section{\color{Black}\def\@linkcolor{Black}\@dottedtocline{1}{1.5em}{2.3em}}
+\renewcommand*\l@section{\color{sectionfg}\def\@linkcolor{sectionfg}\@dottedtocline{1}{1.5em}{2.3em}}
 \def\contentsline#1#2#3#4{%
 	\ifx\\#4\\%
 	\csname l@#1\endcsname{#2}{#3}%
@@ -137,12 +128,16 @@
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Title page style
 
 \renewcommand\titlepage{
 	\my@titlepage
 }
+
+\tikzstyle{titlebgstyle}=[
+	fill=titlebg
+]
 
 \tikzstyle{titlepagestyle}=[
 	text=titlefg,
@@ -165,7 +160,7 @@
 	\noindent
 	\begin{center}
 	\begin{tikzpicture}[remember picture, overlay]
-		\fill [black] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
+		\fill [titlebgstyle] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
 		\node [titlepagestyle] {\bfseries\Huge Spektraklet\\
 								\bfseries\footnotesize #1/\the\year};
 	\end{tikzpicture}
@@ -266,7 +261,6 @@
 \DeclareDocumentCommand{\lastpage}{ m m O{0cm, 0cm} }{
 	\newpage	
 	\fancyhf{}
-%	\renewcommand{\headrulewidth}{4pt}
 	\renewcommand{\headrule}{}
 	\begin{tikzpicture}[remember picture, overlay]
 		\node [shift={(#3)}] at (current page.center) {\includegraphics[width=#1]{#2}};
@@ -294,7 +288,7 @@
 	\end{figure*}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section style
 
 \renewcommand\section{
@@ -306,11 +300,11 @@
 %% Note: to justify, text width must be set to \textwidth - 2*(inner sep).
 \tikzstyle{sectionstyle}=[
   inner sep=5pt,
-  text width=\textwidth-10pt,
+  text width=\textwidth - 10pt,
   left color=sectionfg!100!white,
   right color=sectionfg!50!white,
   rounded corners,
-  text=Ivory,
+  text=titlefg,
   rectangle
 ]
 
@@ -380,16 +374,29 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Svammel commands and environments
 
-\DeclareDocumentCommand{\SvammelLeft}{m m O{2cm}}{
+% Align the svammel-box to the left
+\DeclareDocumentCommand{\SvammelLeft}{ m m O{2cm} }
+{
 	\path let \p1=(p) in node (p) at (-\textwidth/2 + 1cm, \y1 - #3) [right, align=left] {#1\\- #2};
 }
-\DeclareDocumentCommand{\SvammelRight}{m m O{2cm}}{
+
+% Align the svammel-box to the right
+\DeclareDocumentCommand{\SvammelRight}{ m m O{2cm} }
+{
 	\path let \p1=(p) in node (p) at (\textwidth/2 - 1cm, \y1 - #3) [left, align=left] {#1\\- #2};
 }
 
+% Align the svammel-box to the center
+\DeclareDocumentCommand{\SvammelCenter}{ m m O{2cm} }
+{
+	\path let \p1=(p) in node (p) at (0, \y1 - #3) [align=left] {#1\\- #2};
+}
+
+
+% Start a new svammel page.
 \DeclareDocumentEnvironment{svammelpage}{}
 {
 	\begin{center}
@@ -402,6 +409,8 @@
 	\newpage
 }
 
+
+% Start the svammel section.
 \DeclareDocumentEnvironment{svammel}{ O{Alltid nu som då händer det ju sig att fiffiga spektrumiter kläcker ur sig livsvisdomar. Vi på spektraklet gör vårt bästa för att samla åt oss dessa livsvisdomar för att sen dela vidare dem åt våra läsare. För att göra detta behöver vi dock er hjälp; kom ihåg e-mailen ''svammel@spektrum.fi'' nästa gång ni hör något som skulle kunna klassa som svammel.} }
 {
 	\section*{Svammel}
