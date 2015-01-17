@@ -49,18 +49,6 @@
 	\@pagechecktrue
 }
 
-%%% Toggle reflection
-%\newif\if@mirrors\@mirrorsfalse
-%\DeclareOption{mirrors}{
-%	\@mirrorstrue
-%}
-%
-%%% Colors
-%\newif\if@red\@redfalse
-%\DeclareOption{red}{
-%	\@redtrue
-%}
-
 \ExecuteOptions{}
 \ProcessOptions\relax
 
