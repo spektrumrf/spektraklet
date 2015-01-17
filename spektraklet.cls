@@ -39,6 +39,8 @@
 	positioning,
 }
 
+\RequirePackage{wrapfig}
+
 
 \RequirePackage{multicol}
 
@@ -48,20 +50,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Options
 
-%% Toggle reflection
-\newif\if@mirrors\@mirrorsfalse
-\DeclareOption{mirrors}{
-	\@mirrorstrue
-}
-
-%% Colors
-\newif\if@red\@redfalse
-\DeclareOption{red}{
-	\@redtrue
-}
-
-\ExecuteOptions{}
-\ProcessOptions\relax
+%%% Toggle reflection
+%\newif\if@mirrors\@mirrorsfalse
+%\DeclareOption{mirrors}{
+%	\@mirrorstrue
+%}
+%
+%%% Colors
+%\newif\if@red\@redfalse
+%\DeclareOption{red}{
+%	\@redtrue
+%}
+%
+%\ExecuteOptions{}
+%\ProcessOptions\relax
 
 
 
@@ -72,29 +74,25 @@
 \setlength{\parskip}{0.5\baselineskip}
 
 %% Colors
-\colorlet{toctitle}{DarkGray!50!black}
 \colorlet{titlebg}{Black}
 \colorlet{titlefg}{White}
-\colorlet{titletxt}{MidnightBlue}
 \colorlet{sectionfg}{Black}
-\colorlet{subsectionfg}{SteelBlue}
-\colorlet{subsubsectionfg}{LightSteelBlue!60!black}
 
-\if@red
-\colorlet{toctitle}{DarkGray!50!black}
-\colorlet{titlebg}{DarkRed}
-\colorlet{titlefg}{FireBrick!50}
-\colorlet{titletxt}{DarkRed}
-\colorlet{sectionfg}{DarkRed}
-\colorlet{subsectionfg}{Crimson!50!black}
-\colorlet{subsubsectionfg}{LightSteelBlue!60!black}
-\fi
+%\if@red
+%\colorlet{toctitle}{DarkGray!50!black}
+%\colorlet{titlebg}{DarkRed}
+%\colorlet{titlefg}{FireBrick!50}
+%\colorlet{titletxt}{DarkRed}
+%\colorlet{sectionfg}{DarkRed}
+%\colorlet{subsectionfg}{Crimson!50!black}
+%\colorlet{subsubsectionfg}{LightSteelBlue!60!black}
+%\fi
 
 
-\AtEndDocument{%
-}
 
-
+% Calculates if the page count is dividable with four when compiling.
+% It shows a message with how many pages there currently is if an
+% error occurs.
 \AfterEndDocument{
 	\pgfmathparse{mod(\thepage - 1,4)==0}
     \ifnum \pgfmathresult=1
@@ -111,21 +109,14 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-%\fancyfoot[C]{
-%	\vskip 3pt
-%	\begin{tikzpicture}
-%		\node[foliostyle]
-%		{\bfseries\thepage};
-%	\end{tikzpicture}
-%}
 
 \fancyfoot[LE,RO]{\thepage}
 
 \renewcommand{\headrulewidth}{0.8pt}
 \addtolength{\headheight}{\baselineskip}
 \renewcommand{\headrule}{\color{LightGray}\hrule}
-\fancyhead[LE]{ \textcolor{gray}{\slshape \rightmark} }
-\fancyhead[RO]{ \textcolor{gray}{\slshape \leftmark} }
+\fancyhead[LO,RE]{ \textcolor{gray}{\slshape SPEKTRAKLET} }
+\fancyhead[LE,RO]{ \textcolor{gray}{\slshape \leftmark} }
 
 
 
@@ -134,13 +125,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Table of contents
 
-\newcommand{\sectiontoccolor}{sectionfg}
-\newcommand{\subsectiontoccolor}{subsectionfg}
-\newcommand{\subsubsectiontoccolor}{subsubsectionfg}
-
-\renewcommand*\l@section{\color{\sectiontoccolor}\def\@linkcolor{\sectiontoccolor}\@dottedtocline{1}{1.5em}{2.3em}}
-\renewcommand*\l@subsection{\color{\subsectiontoccolor}\def\@linkcolor{\subsectiontoccolor}\@dottedtocline{1}{2.3em}{3.1em}}
-\renewcommand*\l@subsubsection{\color{\subsubsectiontoccolor}\def\@linkcolor{\subsubsectiontoccolor}\@dottedtocline{1}{3.1em}{3.9em}}
+\renewcommand*\l@section{\color{Black}\def\@linkcolor{Black}\@dottedtocline{1}{1.5em}{2.3em}}
 \def\contentsline#1#2#3#4{%
 	\ifx\\#4\\%
 	\csname l@#1\endcsname{#2}{#3}%
@@ -151,17 +136,6 @@
 	\fi
 }
 
-%% New title format -- 'section' is used by default.
-%\newcommand{\tocformat}[1]{{\Huge\bf#1}}
-%
-%\renewcommand\tableofcontents{%
-%	\tocformat{
-%		\textcolor{toctitle}{\contentsname}
-%		\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}
-%	}%
-%	\@starttoc{toc}%
-%}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Title page style
@@ -171,9 +145,7 @@
 }
 
 \tikzstyle{titlepagestyle}=[
-%	fill=titlebg,
 	text=titlefg,
-%	inner sep=0.3cm,
 	shift={(0, 1.1cm)},
 	minimum width=\paperwidth,
 	minimum height=1.2cm,
@@ -307,9 +279,20 @@
 	}
 }
 
-%TODO Add a 'lastpage' command, contaning an image and the PublisherInformationOneLine
 
-%TODO add a way of easily importing images
+\DeclareDocumentCommand{\wrappicture}{ m m O{L} }{
+	\begin{wrapfigure}{#3}{#1}
+		\centering
+		\includegraphics[width=#1]{#2}
+	\end{wrapfigure}
+}
+
+\DeclareDocumentCommand{\picture}{ m m }{
+	\begin{figure*}[ht!]
+		\centering
+		\includegraphics[width=#1]{#2}
+	\end{figure*}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section style
@@ -359,112 +342,73 @@
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Subsection style
 
-\renewcommand\subsection{
-  \@ifstar
-  \my@subsectionstar
-  \my@subsection
+
+\DeclareDocumentEnvironment{ledaren}{ m }
+{
+	\section*{Ledaren}
+}
+{
+	\hfill\large\ #1\newpage
 }
 
-\tikzstyle{subsectionstyle}=[
-  left color=subsectionfg!50!white,
-  right color=subsectionfg!100!white,
-  text=Ivory,
-  ellipse,
-  inner sep=5pt
-]
-
-\newcommand\my@subsection[1]{
-  \stepcounter{subsection}
-  {\Large\needspace{\baselineskip}}
-  \noindent  
-  \begin{tikzpicture}
-    \node[subsectionstyle,anchor=west] (number) at (0,0) {\bfseries\Large\thesubsection};
-    \if@mirrors
-    \node[above right,subsectionfg,anchor=south west] at ($(number.east)+(0.1,-0.1)$) {\large\bfseries#1};
-    \node[yscale=-1, scope fading=south, opacity=0.4, above, anchor=south west, subsectionfg] at ($(number.east)+(0.1,0.1)$) {\large\bfseries#1};
-    \else
-    \node[above right,subsectionfg,anchor=west] at ($(number.east)+(0.1,0)$) {\large\bfseries#1};
-    \fi
-  \end{tikzpicture}
-  \par
-  \phantomsection
-  \addcontentsline{toc}{subsection}{\thesubsection~#1}
+\DeclareDocumentEnvironment{ordforandespalten}{ m }
+{
+	\section*{Ordförandespalten}
 }
-
-\newcommand\my@subsectionstar[1]{
-  {\Large\needspace{\baselineskip}}
-  \noindent
-  \begin{tikzpicture}
-    \node[subsectionstyle,anchor=west] (number) at (0,0) {\bfseries\Large\phantom{1}};
-    %
-    \if@mirrors
-    \node[above right,subsectionfg,anchor=south west] at ($(number.east)+(0.1,-0.1)$) {\large\bfseries#1};
-    \node[yscale=-1, scope fading=south, opacity=0.4, above, anchor=south west, subsectionfg] at ($(number.east)+(0.1,0.1)$) {\large\bfseries#1};
-    \else
-    \node[above right,subsectionfg,anchor=west] at ($(number.east)+(0.1,0)$) {\large\bfseries#1};
-    \fi
-  \end{tikzpicture}
-  \par
-  \phantomsection
-  \addcontentsline{toc}{subsection}{#1}
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Subsubsection style
-
-\renewcommand\subsubsection{
-  \@ifstar
-  \my@subsubsectionstar
-  \my@subsubsection
-}
-
-\tikzstyle{subsubsectionstyle}=[
-  left color=subsubsectionfg!50!white,
-  right color=subsubsectionfg!100!white,
-  text=Ivory,
-  shape=trapezium,
-  inner sep=5pt
-]
-
-\newcommand\my@subsubsection[1]{
-  \stepcounter{subsubsection}
-  \noindent  
-  \begin{tikzpicture}
-        \node[subsubsectionstyle] (number) {\bfseries\large\thesubsubsection};
-        \node[subsubsectionfg, right of=number, anchor=west] {\large\bfseries#1};
-  \end{tikzpicture}
-  \par
-  \phantomsection
-  \addcontentsline{toc}{subsubsection}{\thesubsubsection~#1}
-}
-
-\newcommand\my@subsubsectionstar[1]{
-  \noindent
-  \begin{tikzpicture}
-        \node[subsubsectionstyle] (number) {\bfseries\large\vphantom{1}};
-        \node[subsubsectionfg, right of=number, anchor=west] {\large\bfseries#1};
-  \end{tikzpicture}
-  \par
-  \phantomsection
-  \addcontentsline{toc}{subsubsection}{#1}
+{
+	\hfill\large\ #1\newpage
 }
 
 
+\DeclareDocumentEnvironment{TwoColumns}{}
+{
+	\begin{multicols}{2}
+}
+{
+	\end{multicols}
+}
 
 
-
-\DeclareDocumentEnvironment{article}{m m O{2}}
+\DeclareDocumentEnvironment{article}{ m m }
 {%
 	\section*{#1}
-	\begin{multicols}{#3}
 }
 {%
-	\end{multicols}\hfill\large\ #2\newpage
+	\hfill\large\ #2\newpage
 }
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Svammel commands and environments
+
+\DeclareDocumentCommand{\SvammelLeft}{m m O{2cm}}{
+	\path let \p1=(p) in node (p) at (-\textwidth/2 + 1cm, \y1 - #3) [right, align=left] {#1\\- #2};
+}
+\DeclareDocumentCommand{\SvammelRight}{m m O{2cm}}{
+	\path let \p1=(p) in node (p) at (\textwidth/2 - 1cm, \y1 - #3) [left, align=left] {#1\\- #2};
+}
+
+\DeclareDocumentEnvironment{svammelpage}{}
+{
+	\begin{center}
+	\begin{tikzpicture}[remember picture, overlay]
+		\path let \p1=(0,0) in node (p) at (0cm, 1cm) {};
+}
+{
+	\end{tikzpicture}
+	\end{center}
+	\newpage
+}
+
+\DeclareDocumentEnvironment{svammel}{ O{Alltid nu som då händer det ju sig att fiffiga spektrumiter kläcker ur sig livsvisdomar. Vi på spektraklet gör vårt bästa för att samla åt oss dessa livsvisdomar för att sen dela vidare dem åt våra läsare. För att göra detta behöver vi dock er hjälp; kom ihåg e-mailen ''svammel@spektrum.fi'' nästa gång ni hör något som skulle kunna klassa som svammel.} }
+{
+	\section*{Svammel}
+	#1
+}
+{
+}
 
 
 
