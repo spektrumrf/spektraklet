@@ -10,10 +10,13 @@ To use this custom class you'll have to either add the spektraklet.cls to your l
 
 ## Commands ##
 
-There are both optional and mandatory commands here's a list of all commands (with alternative arguments listed as different entries):
+There are both optional and mandatory commands here's a list of all commands (with alternative arguments listed as different entries). The mandatory arguments are surrounded by { } parenthesis and the optional are surrounded by [ ] parenthesis.
 
 
 ### Title Page ###
+
+This is the cover page of the letter. It contains the title and number of the current paper and a cover picture.
+
 ```
 #!latex
 
@@ -35,6 +38,11 @@ There are both optional and mandatory commands here's a list of all commands (wi
 
 
 ### Content Page ###
+
+This is page shows the table of content and the names of the persons who contributed or works in the editorial.
+
+This command doesn't have any parameters, but there are a number of variables that have to be set in order to complete adding this page.
+
 ```
 #!latex
 \contentpage
