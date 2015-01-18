@@ -13,6 +13,7 @@ To use this custom class you'll have to either add the spektraklet.cls to your l
 There are both optional and mandatory commands here's a list of all commands (with alternative arguments listed as different entries):
 
 
+### \titlepage ###
 ```
 #!latex
 
@@ -31,10 +32,16 @@ There are both optional and mandatory commands here's a list of all commands (wi
 % example:
 \titlepage{1}{\paperwidth}{images/cover.jpg}[1cm, 2cm]
 ```
+
+
+### \contentpage ###
 ```
 #!latex
 \contentpage
 ```
+
+
+### \lastpage ###
 ```
 #!latex
 \lastpage{arg1}{arg2}{arg3}
