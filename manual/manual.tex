@@ -1,0 +1,582 @@
+\documentclass[12pt, a4paper]{article}
+
+
+\usepackage[swedish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{parskip}
+
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{tabularx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows.blur, positioning}
+
+
+\tikzstyle{codebox}=[
+	rectangle,
+	inner sep = 5pt,
+	rounded corners,
+	fill = lightgray!20!white,
+	text width = \linewidth - 10.4pt,
+	draw = lightgray,
+	right,
+	align = left,
+	% blur shadow = {shadow blur steps = 5, shadow blur extra rounding = 1.3pt},
+]
+
+
+\newcommand{\code}[1]{
+	\begin{center}
+	\begin{tikzpicture}
+		\node [codebox] {#1};
+	\end{tikzpicture}
+	\end{center}
+}
+
+
+\title{\begin{Huge}
+Användarmanual för Spektraklets \LaTeX -klass
+\end{Huge}\\
+\begin{large}
+Version 1.0
+\end{large}}
+\author{Christoffer Fridlund}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+
+\tableofcontents
+\newpage
+
+
+\section{Introduktion}
+
+Det här paketet är tänkt som ett hjälpmedel för att enkelt skapa Spektrum rf:s medlemstidning. Med några enkla kommandon kan man skapa en tidning i stil med tidningarna som utkommit under 2010 - 2014 (kanske även tidigare).
+
+Vissa kommandon innehåller förutom sina obligatoriska argument även frivilliga argument. När man använder kommandona så sätts \texttt{\{ \}} runt obligatoriska och \texttt{[ ]} runt valbara argument i samband med kommandot. Det visas exempel på hur man kan använda alla kommandon.
+
+För att använda klassen måste den placeras i \LaTeX -installationen eller i samma mapp som själva tidningens görs i (det senare är enklare alternativet).
+
+Klassen har ett valbart alternativ när man laddar den \texttt{pagecheck}, när det är aktivt räknas sidantalet under kompileringen och ett felmeddelande visas i terminalen ifall sidantalet inte är delbart med fyra (4).
+
+\pagebreak
+
+
+
+
+%================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%		Command Sections
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%================================================================
+
+
+\section{Kommandon}
+
+\subsection{\texttt{\textbackslash titlepage}}
+
+Det här kommandot skapar första sidan, den innehåller tidningens titel och utgivningsnummer. Utöver det här finns det också en bild som täcker så gott som hela sidan.
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash titlepage\{arg1\}\{arg2\}\{arg3\}} \\
+	\texttt{\textbackslash titlepage\{arg1\}\{arg2\}\{arg3\}[arg4]}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l l X}
+	Argument & Oblig. & Kommentar & Exempel \\
+	\hline
+	\texttt{arg1} & x & Publikationsnumret & 1 \\
+	\texttt{arg2} & x & Bredden på bilden & \texttt{\textbackslash paperwidth} \\
+	\texttt{arg3} & x & Bildens sökväg & images/image.jpg \\
+	\texttt{arg4} &   & $\mathrm{d}x$, $\mathrm{d}y$ offsets för bilden & 1cm, 1cm \\
+	\end{tabularx}
+}
+
+\vspace{0.5cm}
+
+Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg2} och \texttt{arg4}. Nyttiga \LaTeX -kommandon är \texttt{\textbackslash paperwidth}, \texttt{\textbackslash linewidth} och \texttt{\textbackslash textwidth}.
+\pagebreak
+
+
+
+\subsection{\texttt{\textbackslash contentpage}}
+
+Det här kommandot skapar andra sidan i tidningen och innehåller innehållsförteckningen och listan på alla som jobbat med tidningen eller sitter i redaktionen.
+
+Det krävs inga argument, men istället finns det några obligatoriska variabler som måste definieras före man kan använda det här kommandot. De valbara använder ett standardvärde ifall man inte anger ett nytt.
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash contentpage}
+}
+
+\textbf{Obligatoriska variabler:}
+\code{
+	\begin{tabularx}{\textwidth}{l l X}
+	Kommando & Argument & Kommentar \\
+	\hline
+	\texttt{\textbackslash ChiefEditor\{arg1\}} & Namn & Chefredaktör \\
+	\texttt{\textbackslash ManagingEditor\{arg1\}} & Namn & Redaktionschef \\
+	\texttt{\textbackslash Editors\{arg1\}} & Namn & Redaktionen \\
+	\texttt{\textbackslash CoverPageAuthor\{arg1\}} & Namn & Vem har gjort pärmbilden
+	\end{tabularx}
+}
+
+Om det ska finnas flera namn på en post, så behövs ett manuellt radbyte med \texttt{\textbackslash\textbackslash} eller \texttt{\textbackslash newline} för att få namnen ovanför varandra.
+
+
+\textbf{Valbara variabler:}
+\code{
+	\begin{tabularx}{\textwidth}{l X}
+	Kommando & Standardvärde \\
+	\hline
+	\texttt{\textbackslash PublicationInformation[arg1]} & är ett språkrör för de som studerar - eller låter bli att studera - matematik, fysik, kemi eller datavetenskap på svenska vid Helsingfors universitet \\
+	\texttt{\textbackslash PublicationSupport[arg1]} & Spektraklet får HUS-stöd för föreningstidningar\\
+	\texttt{\textbackslash PublisherName[arg1]} & Spektrum rf \\
+	\texttt{\textbackslash PublisherAddress[arg1]} & Kemiska institutionens svenska avdelning \\
+	\texttt{\textbackslash PublisherPostalOfficeBox[arg1]} & PB 55 \\
+	\texttt{\textbackslash PublisherPostalCode[arg1]} & 00014 Helsingfors universitet
+	\end{tabularx}
+}
+\pagebreak
+
+
+
+
+\subsection{\texttt{\textbackslash lastpage}}
+
+Det här kommandot skapar sista sidan. Den innehåller en bild som täcker så gott som hela sidan och i footern längst ner på sidan finns avsändarens information.
+
+Det är väldigt lika kommandot \texttt{\textbackslash titlepage}.
+
+\vspace{0.5cm}
+
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash lastpage\{arg1\}\{arg2\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l l X}
+	Argument & Oblig. & Kommentar & Exempel \\
+	\hline
+	\texttt{arg1} & x & Bredden på bilden & \texttt{\textbackslash paperwidth} \\
+	\texttt{arg2} & x & Bildens sökväg & images/image.jpg \\
+	\texttt{arg3} &   & $\mathrm{d}x$, $\mathrm{d}y$ offsets för bilden & 1cm, 1cm \\
+	\end{tabularx}
+}
+\vspace{0.5cm}
+
+Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg1} och \texttt{arg3}. Nyttiga \LaTeX -kommandon är \texttt{\textbackslash paperwidth}, \texttt{\textbackslash linewidth} och \texttt{\textbackslash textwidth}.
+\pagebreak
+
+
+
+
+\subsection{\texttt{\textbackslash picture}}
+
+Kommandot försöker placera in bilden i texten där det skrivits in. Den här bilden knuffar undan resten av texten, för att inte dela yta med den.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash picture\{arg1\}\{arg2\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l l X}
+	Argument & Oblig. & Kommentar & Exempel \\
+	\hline
+	\texttt{arg1} & x & Bredden på bilden & \texttt{\textbackslash paperwidth} \\
+	\texttt{arg2} & x & Bildens sökväg & images/image.jpg
+	\end{tabularx}
+}
+\vspace{0.5cm}
+
+Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg1} och \texttt{arg3}. Nyttiga \LaTeX -kommandon är \texttt{\textbackslash paperwidth}, \texttt{\textbackslash linewidth} och \texttt{\textbackslash textwidth}.
+
+\vfill
+
+
+\subsection{\texttt{\textbackslash wrappicture}}
+
+Kommandot försöker placera in bilden i texten där det skrivits in. Den här bilden omsluts av texten beroende på var den placeras.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash wrappicture\{arg1\}\{arg2\}}\\
+	\texttt{\textbackslash wrappicture\{arg1\}\{arg2\}[arg3]}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l l X}
+	Argument & Oblig. & Kommentar & Exempel \\
+	\hline
+	\texttt{arg1} & x & Bredden på bilden & \texttt{\textbackslash paperwidth} \\
+	\texttt{arg2} & x & Bildens sökväg & images/image.jpg \\
+	\texttt{arg3} &   & Höger eller vänster placering & R
+	\end{tabularx}
+}
+\vspace{0.5cm}
+
+Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg1} och \texttt{arg3}. Nyttiga \LaTeX -kommandon är \texttt{\textbackslash paperwidth}, \texttt{\textbackslash linewidth} och \texttt{\textbackslash textwidth}.
+\pagebreak
+
+
+
+%================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%		Environment Sections
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%================================================================
+
+
+\section{Miljöer}
+
+Miljöer är \LaTeX -kommandon som använder sig av \texttt{\textbackslash begin\{ \}} och \texttt{\textbackslash end\{ \}}. Det här är för att hålla vissa specifika regler inom en lokal del av dokumentet.
+
+
+\subsection{\texttt{ledaren}}
+
+Det här skapar artikeln med rubriken ''Ledaren''. Den brukar vara det första som står i tidningen och innehålla en hälsning från chefredaktören. Texten skrivs in mellan \texttt{\textbackslash begin\{ \}} och \texttt{\textbackslash end\{ \}} delarna. Se styckena om \texttt{\textbackslash picture} och \texttt{\textbackslash wrappicture} för att placera bilder i artikeln.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{ledaren\}\{arg1\}}\\
+	\texttt{\textbackslash end\{ledaren\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Namnet på skribenten 
+	\end{tabularx}
+}
+
+\vfill
+
+
+
+\subsection{\texttt{ordforandespalten}}
+
+Det här skapar artikeln med rubriken ''Ordförandespalten''. Den brukar vara den andra artikeln i tidningen och innehålla en hälsning från ordförande. Texten skrivs in mellan \texttt{\textbackslash begin\{ \}} och \texttt{\textbackslash end\{ \}} delarna. Se styckena om \texttt{\textbackslash picture} och \texttt{\textbackslash wrappicture} för att placera bilder i artikeln.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{ordforandespalten\}\{arg1\}}\\
+	\texttt{\textbackslash end\{ordforandespalten\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\linewidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Namnet på skribenten 
+	\end{tabularx}
+}
+
+
+
+\subsection{\texttt{artikel}}
+
+Det här skapar artikeln med angiven rubrik. Den miljön hjälper användaren att skapa en artikel. Texten skrivs in mellan \texttt{\textbackslash begin\{ \}} och \texttt{\textbackslash end\{ \}} delarna. Se styckena om \texttt{\textbackslash picture} och \texttt{\textbackslash wrappicture} för att placera bilder i artikeln.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{artikel\}\{arg1\}\{arg2\}}\\
+	\texttt{\textbackslash end\{artikel\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\linewidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Titeln på artikeln \\
+	\texttt{arg2} & x & Namnet på skribenten 
+	\end{tabularx}
+}
+\pagebreak
+
+
+\subsection{\texttt{svammel}}
+
+Det här skapar artikeln med rubriken ''Svammel''. Det brukar vara den sista artikeln i tidningen. Texten skrivs in mellan \texttt{\textbackslash begin\{ \}} och \texttt{\textbackslash end\{ \}} delarna. För att kunna alternera mellan höger och vänster placering på mer än en sida, så måste varje svammelsida omges av en \texttt{svammelpage}-miljö.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{svammel\}\{arg1\}}\\
+	\texttt{\textbackslash end\{svammel\}}
+}
+
+
+
+
+\subsection{\texttt{svammelpage}}
+
+Det här skapar en ny svammelsida och bör användas innuti \texttt{svammel}-miljön. För att placera olika svammel på sidan använd kommandona \texttt{\textbackslash SvammelLeft}, \texttt{\textbackslash SvammelRight} och \texttt{\textbackslash SvammelCenter}.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{svammelpage\}\{arg1\}}\\
+	\texttt{\textbackslash end\{svammelpage\}}
+}
+
+
+
+
+\subsubsection{\texttt{\textbackslash SvammelLeft}}
+
+Placerar svammlet till vänster på sidan.
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash SvammelLeft\{arg1\}\{arg2\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\linewidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Svammlet \\
+	\texttt{arg2} & x & Svamlaren 
+	\end{tabularx}
+}
+
+
+\subsubsection{\texttt{\textbackslash SvammelRight}}
+
+Placerar svammlet till höger på sidan.
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash SvammelRight\{arg1\}\{arg2\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\linewidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Svammlet \\
+	\texttt{arg2} & x & Svamlaren 
+	\end{tabularx}
+}
+
+
+
+\subsubsection{\texttt{\textbackslash SvammelCenter}}
+
+Placerar svammlet på mitten av sidan.
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash SvammelCenter\{arg1\}\{arg2\}}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l X}
+	Argument & Oblig. & Kommentar \\
+	\hline
+	\texttt{arg1} & x & Svammlet \\
+	\texttt{arg2} & x & Svamlaren 
+	\end{tabularx}
+}
+\pagebreak
+
+
+
+\subsection{\texttt{twocolumns}}
+
+Allt som skrivs emellan \texttt{\textbackslash begin} och \texttt{\textbackslash end} kommandona hamnar i två kolumner. Om en bild som spänner över hela sidan (båda kolumnerna) vill infogas, så är det enklast om placerar bilden mellan två \texttt{twocolumns} miljöer (se exemplena i slutet av manualen).
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash begin\{twocolumns\}}\\
+	\texttt{\textbackslash end\{twocolumns\}}
+}
+\pagebreak
+
+
+
+
+
+
+%================================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%		Example Sections
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%================================================================
+
+\section{Exempel}
+
+
+\subsection{Simpelt dokument}
+
+Utan sidkontroll:
+\code{
+	\texttt{\textbackslash documentclass\{spektraklet\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{document\}\\
+	\vspace{0.3cm}
+	\textbackslash end\{document\}}
+}
+
+Med sidkontroll:
+\code{
+	\texttt{\textbackslash documentclass[pagecheck]\{spektraklet\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{document\}\\
+	\vspace{0.3cm}
+	\textbackslash end\{document\}}	
+}
+\pagebreak
+
+
+
+\subsection{Bilder}
+
+Bild som knuffar undan texten runtomkring:
+\code{
+	\texttt{\textbackslash documentclass\{spektraklet\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{document\}\\
+	\vspace{0.3cm}
+	\ldots{}\\
+	\textbackslash picture\{5cm\}\{images/picture.jpg\}\\
+	\ldots{}\\
+	\vspace{0.3cm}
+	\textbackslash end\{document\}}
+}
+
+\vspace{0.5cm}
+
+Bild som låter texten omsluta den, beroende på var den är placerad i texten:
+\code{
+	\texttt{\textbackslash documentclass\{spektraklet\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{document\}\\
+	\vspace{0.3cm}
+	\ldots{}\\
+	\textbackslash wrappicture\{5cm\}\{images/picture.jpg\}\\
+	\textbackslash wrappicture\{5cm\}\{images/picture.jpg\}[R]\\
+	\textbackslash wrappicture\{5cm\}\{images/picture.jpg\}[L]\\
+	\ldots{}\\
+	\vspace{0.3cm}
+	\textbackslash end\{document\}}
+}
+\pagebreak
+
+
+
+
+\subsection{Fullständigt dokument}
+
+Exemplet kräver två bilder (front-cover.jpg och back-cover.jpg) i en mapp, \textit{images}, relativ till filen.
+
+\code{
+	\texttt{\textbackslash documentclass[pagecheck]\{spektraklet\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{document\}\\
+	\vspace{0.3cm}
+	\textbackslash titlepage\{1\}\{\textbackslash paperwidth\}\{images/front-cover.jpg\}\\
+	\vspace{0.3cm}
+	\textbackslash ChiefEditor\{Förnamn Efternamn\}\\
+	\textbackslash ManagingEditor\{Förnamn Efternamn\}\\
+	\textbackslash Editors\{\\
+		\quad Förnamn Efternamn\textbackslash\textbackslash\\
+		\quad Förnamn Efternamn\textbackslash\textbackslash\\
+		\quad Förnamn Efternamn\\
+	\}\\
+	\textbackslash CoverPageAuthor\{Förnamn Efternamn\}\\
+	\vspace{0.3cm}
+	\textbackslash contentpage\\
+	\vspace{0.3cm}
+	\textbackslash begin\{ledaren\}\{Namn\}\\
+	\textbackslash end\{ledaren\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{ordforandespalten\}\{Namn\}\\
+	\textbackslash end\{ordforandespalten\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{artikel\}\{Artikel 1\}\{Namn\}\\
+	\textbackslash end\{artikel\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{artikel\}\{Artikel 2\}\{Namn\}\\
+	\textbackslash end\{artikel\}\\
+	\vspace{0.3cm}
+	\textbackslash begin\{svammel\}\\
+	\quad\textbackslash begin\{svammelpage\}\\
+	\quad\quad\textbackslash SvammelLeft\{Svammel text\}\{Namn\}\\
+	\quad\quad\textbackslash SvammelRight\{Svammel text\}\{Namn\}\\
+	\quad\quad\textbackslash SvammelCenter\{Svammel text\}\{Namn\}\\
+	\quad\textbackslash end\{svammelpage\}\\
+	\textbackslash end\{svammel\}\\
+	\vspace{0.3cm}
+	\textbackslash lastpage\{0.9\textbackslash textwidth\}\{images/back-cover.jpg\}\\
+	\vspace{0.3cm}
+	\textbackslash end\{document\}}	
+}
+
+
+
+
+
+\end{document}

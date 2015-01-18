@@ -344,7 +344,7 @@
 }
 
 
-\DeclareDocumentEnvironment{TwoColumns}{}
+\DeclareDocumentEnvironment{twocolumns}{}
 {
 	\begin{multicols}{2}
 }
@@ -353,7 +353,7 @@
 }
 
 
-\DeclareDocumentEnvironment{article}{ m m }
+\DeclareDocumentEnvironment{artikel}{ m m }
 {%
 	\section*{#1}
 }
