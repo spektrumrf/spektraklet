@@ -249,6 +249,36 @@ Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg1} och \texttt{arg
 
 
 
+
+\subsection{\texttt{\textbackslash columnpicture}}
+
+Kommandot försöker placera in bilden i kolumnen där det skrivits in. Automatikst antas bildens bredd vara kolumnens bredd, man kan ändra på bredden genom att använda det valbara argumentet.
+
+
+\vspace{0.5cm}
+
+Exempelkod:
+\code{
+	\texttt{\textbackslash columnpicture\{arg1\}}\\
+	\texttt{\textbackslash columnpicture\{arg1\}[arg2]}
+}
+
+Beskrivning av argumenten:
+\code{
+	\begin{tabularx}{\textwidth}{l l l X}
+	Argument & Oblig. & Kommentar & Exempel \\
+	\hline
+	\texttt{arg1} & x & Bildens sökväg & images/image.jpg \\
+	\texttt{arg2} & x & Bredden på bilden & \texttt{\textbackslash paperwidth}
+	\end{tabularx}
+}
+\vspace{0.5cm}
+
+Tips: Alla \LaTeX -längdenheter när man fyller i \texttt{arg1} och \texttt{arg3}. Nyttiga \LaTeX -kommandon är \texttt{\textbackslash paperwidth}, \texttt{\textbackslash linewidth} och \texttt{\textbackslash textwidth}.
+\pagebreak
+
+
+
 %================================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

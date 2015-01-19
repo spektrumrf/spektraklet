@@ -34,7 +34,6 @@
 }
 
 \RequirePackage{wrapfig}
-\RequirePackage{float}
 
 \RequirePackage{multicol}
 
@@ -269,13 +268,6 @@
 		\centering
 		\includegraphics[width=#1]{#2}
 	\end{wrapfigure}
-}
-
-\DeclareDocumentCommand{\columnpicture}{ m O{0.99\columnwidth} }{
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=#2]{#1}
-	\end{figure}
 }
 
 \DeclareDocumentCommand{\picture}{ m m }{
