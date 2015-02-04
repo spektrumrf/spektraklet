@@ -26,7 +26,17 @@
 
 \RequirePackage{etoolbox}
 
-\RequirePackage[top=2.5cm, bottom=2.5cm, left=1cm, right=1cm]{geometry}
+\RequirePackage[
+	papersize={156mm, 218mm},	% standard a5 = {148, 210} 2mm on each side
+	layout=a5paper,
+	layouthoffset=4mm,
+	layoutvoffset=4mm,
+	top=2.5cm,
+	bottom=2.5cm,
+	left=1cm,
+	right=1cm,
+	showframe
+]{geometry}
 \RequirePackage{needspace}	% Prevent page break after a sectioning command
 \RequirePackage[svgnames]{xcolor}
 
@@ -49,6 +59,9 @@
 \RequirePackage{multicol}
 
 \RequirePackage{xparse}
+
+
+%\RequirePackage[cam,a5,center]{crop}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+
+%----------------------------------------
+% a4
+%
+%	210 mm x 297 mm
+%	8.27 in x 11.7 in
+%
+%	8.27 in x 72 bp/in = 595.44 bp
+%	11.7 in x 72 bp/in = 842.4 bp
+%----------------------------------------
+
+
+\usepackage[
+	a4paper,
+	paperwidth=631.44bp,
+	paperheight=893.3bp,
+	left=108bp,	% 1 + 0.5 inch in bp
+	right=108bp,
+	top=108bp,
+	bottom=108bp,
+	showframe
+]{geometry}
+
+%\pdfpagewidth=631.44bp
+%\pdfpageheight=893.3bp
+\pdfhorigin=87bp
+\pdfvorigin=87bp
+
+\pdfpagesattr{
+	/MediaBox [0 0 631.44 893.3]
+	/TrimBox [18 25.46 613.44 867.84]
+	/CropBox [18 25.46 613.44 867.84]
+	/BleedBox [9 12.73 622.44 881.57]
+}
+
+\pdfinfo{
+	/Title (Spektraklet)
+	/Creator (TeX)
+	/Author (Spektrum rf)
+}
+
+
+% The value in the boxes are given in 
+% bp (bp = 1/72 inch)
+%\pdfpagesattr{
+%/MediaBox [0 0 463 640]
+%/TrimBox [14 14 435 611]
+%/CropBox [14 14 435 611]
+%%/CropBox [0 0 463.78 640.19]
+%/BleedBox [28 28 449 625]
+%}
+
+
+\usepackage{lipsum}
+
+
+
+\begin{document}
+
+\lipsum
+
+\end{document}
