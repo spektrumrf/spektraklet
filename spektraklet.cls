@@ -11,14 +11,23 @@
 %% Packages
 
 
-\RequirePackage[swedish]{babel}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
+\RequirePackage[swedish]{babel}
+
+\RequirePackage{amsthm}
+\RequirePackage{amsfonts}         
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+
+\RequirePackage{parskip}
+\RequirePackage[normalem]{ulem}	% Used for use with \sout{} command, to 
+								% write strikethrough text.
 
 \RequirePackage{etoolbox}
 
 \RequirePackage[top=2.5cm, bottom=2.5cm, left=1cm, right=1cm]{geometry}
-\RequirePackage{needspace}% Prevent page break after a sectioning command
+\RequirePackage{needspace}	% Prevent page break after a sectioning command
 \RequirePackage[svgnames]{xcolor}
 
 \RequirePackage{lastpage}
@@ -35,6 +44,7 @@
 
 \RequirePackage{wrapfig}
 \RequirePackage{float}
+\RequirePackage{caption}
 
 \RequirePackage{multicol}
 
@@ -216,6 +226,12 @@
 	\vspace{0.5cm}
 	\noindent\textbf{Utgivare}\\
 	\PublisherInformation
+		
+	\vspace{0.5cm}
+	\ifx\publicationsupport\@undefined
+		\PublicationSupport
+	\fi
+	\publicationsupport
 	
 	\end{minipage}
 	\hfill
@@ -235,14 +251,9 @@
 	\vspace{0.5cm}
 	\noindent\textbf{Pärmbild}\\
 	\coverpageauthor
-	
+
 	\end{minipage}
 	
-	\vspace{0.5cm}
-	\ifx\publicationsupport\@undefined
-		\PublicationSupport
-	\fi
-	\publicationsupport
 	
 	\newpage
 }
@@ -263,27 +274,93 @@
 	}
 }
 
-
-\DeclareDocumentCommand{\wrappicture}{ m m O{L} }{
-	\begin{wrapfigure}{#3}{#1}
-		\centering
-		\includegraphics[width=#1]{#2}
-	\end{wrapfigure}
+\ExplSyntaxOn
+\DeclareDocumentCommand{\wrappicture}{ m O{5cm} O{L} o }{
+	\tl_if_empty:nTF{#2}
+	{
+		\tl_if_empty:nTF{#3}
+		{
+			\begin{wrapfigure}{L}{5cm}
+				\includegraphics[width=5cm]{#1}
+				\IfNoValueF{#4}{ \caption*{#4} }
+			\end{wrapfigure}
+		}
+		{
+			\begin{wrapfigure}{#3}{5cm}
+				\includegraphics[width=5cm]{#1}
+				\IfNoValueF{#4}{ \caption*{#4} }
+			\end{wrapfigure}
+		}
+	}
+	{
+		\tl_if_empty:nTF{#3}
+		{
+			\begin{wrapfigure}{L}{#2}
+				\includegraphics[width=#2]{#1}
+				\IfNoValueF{#4}{ \caption*{#4} }
+			\end{wrapfigure}
+		}
+		{
+			\begin{wrapfigure}{#3}{#2}
+				\includegraphics[width=#2]{#1}
+				\IfNoValueF{#4}{ \caption*{#4} }
+			\end{wrapfigure}
+		}
+	}
 }
+\ExplSyntaxOff
 
-\DeclareDocumentCommand{\columnpicture}{ m O{0.99\columnwidth} }{
+
+
+\ExplSyntaxOn
+\DeclareDocumentCommand{\columnpicture}{ m O{0.99\columnwidth} o }{
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=#2]{#1}
+		% checking if the value is empty
+		\tl_if_empty:nTF{#2}
+		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
+		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
+		\IfNoValueF{#3}
+		{
+			\caption*{#3}
+		}
 	\end{figure}
 }
+\ExplSyntaxOff
 
-\DeclareDocumentCommand{\picture}{ m m }{
+\ExplSyntaxOn
+\DeclareDocumentCommand{\picture}{ m O{0.99\columnwidth} o }{
 	\begin{figure*}[ht!]
 		\centering
-		\includegraphics[width=#1]{#2}
+		% checking if the value is empty
+		\tl_if_empty:nTF{#2}
+		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
+		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
+		\IfNoValueF{#3}
+		{
+			\caption*{#3}
+		}
 	\end{figure*}
 }
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\DeclareDocumentCommand{\toppicture}{ m O{0.99\columnwidth} o }{
+	\begin{figure*}[t!]
+		\centering
+		% checking if the value is empty
+		\tl_if_empty:nTF{#2}
+		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
+		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
+		\IfNoValueF{#3}
+		{
+			\caption*{#3}
+		}
+	\end{figure*}
+}
+\ExplSyntaxOff
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section style
