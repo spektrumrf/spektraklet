@@ -10,10 +10,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Packages
 
-
+%-----------------------------------------------------------------------------------
+% The class uses UTF8 as input encoding. The files created should use this as well.
+% It has language support for swedish by default, if an article in another language
+% will be added, then list of langauges in the babel argument has to be updated.
+%-----------------------------------------------------------------------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[swedish]{babel}
+
 
 \RequirePackage{amsthm}
 \RequirePackage{amsfonts}         
@@ -77,11 +82,13 @@
 \colorlet{sectionfg}{Black}
 
 
-
-
-% Calculates if the page count is dividable with four when compiling.
-% It shows a message with how many pages there currently is if an
-% error occurs.
+%-----------------------------------------------------------------------------------
+% Calculates if the page count is dividable with four when compiling. It shows a 
+% message with how many pages there currently is if an error occurs.
+%
+% This helps with the booklet layout. Normally a book or booklet has even number
+% of pages, to be able to glue or tie them together.
+%-----------------------------------------------------------------------------------
 \AfterEndDocument{
 	\if@pagecheck
 		\pgfmathparse{mod(\thepage - 1,4)==0}
@@ -92,6 +99,7 @@
     \fi
     \fi
 }
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Header and Footer
@@ -150,11 +158,18 @@
 ]
 
 %%
-% #1 = Publication number
-% #2 = cover image width
-% #3 = cover image path
-%	#4 = dx of cover image
-%	#5 = dy of cover image
+% The cover page, including the Header, the number of the newsletter and an
+% cover image.
+%
+% Arguments:
+%	Mandatory:
+%		#1 = Publication number
+%		#2 = cover image width
+%		#3 = cover image path
+%	Optional:
+%		#4 = dx of cover image
+%		#5 = dy of cover image
+%
 \DeclareDocumentCommand{\my@titlepage}{ m m m O{0cm, 0cm} }{
 	\thispagestyle{empty}
 	\noindent
@@ -173,7 +188,13 @@
 }
 
 
-\DeclareDocumentCommand{\PublicationInformation}{ O{är ett språkrör för de som studerar - eller låter bli att studera - matematik, fysik, kemi eller datavetenskap på svenska vid Helsingfors universitet.} }{\def\publicationinformation{#1}}
+%-----------------------------------------------------------------------------------
+% Properties of the newsletter. All of these have default values, that can be
+% overriden.
+%-----------------------------------------------------------------------------------
+\DeclareDocumentCommand{\PublicationInformation}{%
+		O{är ett språkrör för de som studerar - eller låter bli att studera - matematik, fysik, kemi eller datavetenskap på svenska vid Helsingfors universitet.}
+	}{\def\publicationinformation{#1}}
 
 \DeclareDocumentCommand{\PublicationSupport}{ O{Spektraklet får HUS-stöd för föreningstidningar.} }{\def\publicationsupport{#1}}
 
@@ -194,6 +215,9 @@
 	\noindent\publishername~$\bullet$~\publisheraddress~$\bullet$~\publisherpostalofficebox~$\bullet$~\publisherpostalcode
 }
 
+%%----------------------------------------------------------------------------------
+% Helper function to create the different fields if they dont exist.
+%-----------------------------------------------------------------------------------
 \newcommand{\definepublisherformation}{
 	\ifx\publishername\@undefined
 		\PublisherName
@@ -274,10 +298,25 @@
 	}
 }
 
+
+%%----------------------------------------------------------------------------------
+% Exteonsion to the Wrap figure environment. Possible usage situations are when the
+% scriber wants to add a picture in the middle of available text. The text will
+% then wrap around the figure.
+%
+% This environment variable has default values on the different commands provided
+% by the wrapfig environment.
+%-----------------------------------------------------------------------------------
 \ExplSyntaxOn
 \DeclareDocumentCommand{\wrappicture}{ m O{5cm} O{L} o }{
+	%-------------------------------------------------------------------------------
+	% If the second argument is empty
+	%-------------------------------------------------------------------------------
 	\tl_if_empty:nTF{#2}
 	{
+		%---------------------------------------------------------------------------
+		% If the second and the third arguments are empty
+		%---------------------------------------------------------------------------
 		\tl_if_empty:nTF{#3}
 		{
 			\begin{wrapfigure}{L}{5cm}
@@ -293,6 +332,9 @@
 		}
 	}
 	{
+		%---------------------------------------------------------------------------
+		% If the second argument exist but the third is empty.
+		%---------------------------------------------------------------------------
 		\tl_if_empty:nTF{#3}
 		{
 			\begin{wrapfigure}{L}{#2}
@@ -312,6 +354,11 @@
 
 
 
+%%----------------------------------------------------------------------------------
+% This command adds a wrapper for adding pictures to one of the columns in a multi-
+% column article. By default the width of the picture will span over the entire
+% column width. Tex can place it where it fits best.
+%-----------------------------------------------------------------------------------
 \ExplSyntaxOn
 \DeclareDocumentCommand{\columnpicture}{ m O{0.99\columnwidth} o }{
 	\begin{figure}[H]
@@ -320,7 +367,7 @@
 		\tl_if_empty:nTF{#2}
 		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
 		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
-		\IfNoValueF{#3}
+		\IfNoValueF{#3}										% optional caption.
 		{
 			\caption*{#3}
 		}
@@ -328,6 +375,11 @@
 }
 \ExplSyntaxOff
 
+
+%%----------------------------------------------------------------------------------
+% Almost the same as the columnpicture command, but with much more strict placement
+% arguments. Tex should place it exactly where it is wanted.
+%-----------------------------------------------------------------------------------
 \ExplSyntaxOn
 \DeclareDocumentCommand{\picture}{ m O{0.99\columnwidth} o }{
 	\begin{figure*}[ht!]
@@ -336,7 +388,7 @@
 		\tl_if_empty:nTF{#2}
 		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
 		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
-		\IfNoValueF{#3}
+		\IfNoValueF{#3}										% optional caption.
 		{
 			\caption*{#3}
 		}
@@ -344,6 +396,10 @@
 }
 \ExplSyntaxOff
 
+
+%%----------------------------------------------------------------------------------
+%
+%-----------------------------------------------------------------------------------
 \ExplSyntaxOn
 \DeclareDocumentCommand{\toppicture}{ m O{0.99\columnwidth} o }{
 	\begin{figure*}[t!]
@@ -438,12 +494,28 @@
 }
 
 
-\DeclareDocumentEnvironment{artikel}{ m m }
+%%----------------------------------------------------------------------------------
+% Creates the body for the article. By providing the header and the author in the
+% mandatory fields all articles will be consistent and have the same information.
+% An extra optional argument is provided if one considers adding more stuff to the
+% end of the article or just wants to skip the automatic new page.
+%
+% Arguments:
+%	Mandatory:
+%		#1	The article header
+%		#2	The author's name
+%	Optional:
+%		#3	After author stuff
+%-----------------------------------------------------------------------------------
+\DeclareDocumentEnvironment{artikel}{ m m o }
 {%
 	\section*{#1}
 }
 {%
-	\hfill\large\ #2\newpage
+	\hfill{\large\ #2}
+	\IfNoValueTF{#3}
+	{ \newpage }
+	{ \newline #3 }
 }
 
 
