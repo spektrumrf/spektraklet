@@ -204,8 +204,8 @@
 \DeclareDocumentCommand{\PublicationSupport}{ O{Spektraklet får HUS-stöd för föreningstidningar.} }{\def\publicationsupport{#1}}
 
 \DeclareDocumentCommand{\PublisherName}{ O{Spektrum rf} }{\def\publishername{#1}}
-\DeclareDocumentCommand{\PublisherAddress}{ O{Kemiska institutionens svenska avdelning} }{\def\publisheraddress{#1}}
-\DeclareDocumentCommand{\PublisherPostalOfficeBox}{ O{PB 55} }{\def\publisherpostalofficebox{#1}}
+\DeclareDocumentCommand{\PublisherAddress}{ O{Exactum}{\def\publisheraddress{#1}}
+\DeclareDocumentCommand{\PublisherPostalOfficeBox}{ O{PB 68} }{\def\publisherpostalofficebox{#1}}
 \DeclareDocumentCommand{\PublisherPostalCode}{ O{00014 Helsingfors universitet} }{\def\publisherpostalcode{#1}}
 
 \newcommand{\PublisherInformation}{
