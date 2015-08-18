@@ -19,12 +19,17 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[swedish]{babel}
 
-
+%-----------------------------------------------------------------------------------
+% Mathematical packages for equations and stuff.
+%-----------------------------------------------------------------------------------
 \RequirePackage{amsthm}
 \RequirePackage{amsfonts}         
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 
+%-----------------------------------------------------------------------------------
+% More control over the paragraphs.
+%-----------------------------------------------------------------------------------
 \RequirePackage{parskip}
 \RequirePackage[normalem]{ulem}	% Used for use with \sout{} command, to 
 								% write strikethrough text.
@@ -216,7 +221,8 @@
 }
 
 %%----------------------------------------------------------------------------------
-% Helper function to create the different fields if they dont exist.
+% Helper function to create the different fields if they dont exist. This function
+% should not be called manually if one doesn't know what's going on.
 %-----------------------------------------------------------------------------------
 \newcommand{\definepublisherformation}{
 	\ifx\publishername\@undefined
