@@ -117,7 +117,8 @@
 \fancyfoot[LE,RO]{\thepage}
 
 \renewcommand{\headrulewidth}{0.8pt}
-\addtolength{\headheight}{\baselineskip}
+% \addtolength{\headheight}{\baselineskip}
+\addtolength{\headheight}{24.88675pt}
 \renewcommand{\headrule}{\color{LightGray}\hrule}
 \fancyhead[LO,RE]{ \textcolor{gray}{\slshape SPEKTRAKLET} }
 \fancyhead[LE,RO]{ \textcolor{gray}{\slshape \leftmark} }
@@ -180,8 +181,8 @@
 	\noindent
 	\begin{center}
 	\begin{tikzpicture}[remember picture, overlay]
-		\fill [titlebgstyle] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
-		\node [titlepagestyle] {\bfseries\Huge Spektraklet\\
+		\fill [titlebgstyle, shift={(0mm, 2mm)}] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
+		\node [titlepagestyle, shift={(0mm, 2mm)}] {\bfseries\Huge Spektraklet\\
 								\bfseries\footnotesize #1/\the\year};
 	\end{tikzpicture}
 	\end{center}
@@ -204,7 +205,7 @@
 \DeclareDocumentCommand{\PublicationSupport}{ O{Spektraklet får HUS-stöd för föreningstidningar.} }{\def\publicationsupport{#1}}
 
 \DeclareDocumentCommand{\PublisherName}{ O{Spektrum rf} }{\def\publishername{#1}}
-\DeclareDocumentCommand{\PublisherAddress}{ O{Exactum}{\def\publisheraddress{#1}}
+\DeclareDocumentCommand{\PublisherAddress}{ O{Exactum} }{\def\publisheraddress{#1}}
 \DeclareDocumentCommand{\PublisherPostalOfficeBox}{ O{PB 68} }{\def\publisherpostalofficebox{#1}}
 \DeclareDocumentCommand{\PublisherPostalCode}{ O{00014 Helsingfors universitet} }{\def\publisherpostalcode{#1}}
 
