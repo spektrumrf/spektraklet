@@ -309,7 +309,7 @@
 
 
 %%----------------------------------------------------------------------------------
-% Exteonsion to the Wrap figure environment. Possible usage situations are when the
+% Extension to the Wrap figure environment. Possible usage situations are when the
 % scriber wants to add a picture in the middle of available text. The text will
 % then wrap around the figure.
 %
