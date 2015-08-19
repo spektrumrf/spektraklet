@@ -36,7 +36,7 @@
 
 \RequirePackage{etoolbox}
 
-\RequirePackage[top=2.5cm, bottom=2.5cm, left=1cm, right=1cm]{geometry}
+\RequirePackage[top=2.0cm, bottom=2.5cm, left=1cm, right=1cm]{geometry}
 \RequirePackage{needspace}	% Prevent page break after a sectioning command
 \RequirePackage[svgnames]{xcolor}
 
@@ -52,6 +52,7 @@
 	positioning,
 }
 
+\RequirePackage[export]{adjustbox}
 \RequirePackage{wrapfig}
 \RequirePackage{float}
 \RequirePackage{caption}
@@ -59,6 +60,7 @@
 \RequirePackage{multicol}
 
 \RequirePackage{xparse}
+\RequirePackage{pgfkeys}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -181,8 +183,8 @@
 	\noindent
 	\begin{center}
 	\begin{tikzpicture}[remember picture, overlay]
-		\fill [titlebgstyle, shift={(0mm, 2mm)}] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
-		\node [titlepagestyle, shift={(0mm, 2mm)}] {\bfseries\Huge Spektraklet\\
+		\fill [titlebgstyle, shift={(0mm, 0mm)}] (-\paperwidth/2, 3.5cm) rectangle (\paperwidth/2, -0.5cm);
+		\node [titlepagestyle, shift={(0mm, 0mm)}] {\bfseries\Huge Spektraklet\\
 								\bfseries\footnotesize #1/\the\year};
 	\end{tikzpicture}
 	\end{center}
@@ -359,70 +361,49 @@
 }
 \ExplSyntaxOff
 
+% Set up the keys. Only the ones directly under /picture
+% can be accepted as options to the \picture macro.
+\pgfkeys{
+	/picture/.is family, /picture,
+	%-------------------------------------------------------------------------------
+	% default options selected if the user doesn't pass the specific one.
+	%-------------------------------------------------------------------------------
+	default/.style = 
+	{
+		width = \columnwidth,
+		align = center,
+		float = here
+	},
+	%-------------------------------------------------------------------------------
+	% Here are the options that a user can pass
+	%-------------------------------------------------------------------------------
+	width/.estore in = \pictureWidth,
+	align/.estore in = \pictureAlign,
+	float/.style = {floats/#1/.get = \pictureFloat},
+	%-------------------------------------------------------------------------------
+	% Float dictionary
+	%-------------------------------------------------------------------------------
+	floats/.cd,
+		here/.initial = H,
+		top/.initial = !t,
+		bottom/.initial = !b,
+}
 
-
-%%----------------------------------------------------------------------------------
-% This command adds a wrapper for adding pictures to one of the columns in a multi-
-% column article. By default the width of the picture will span over the entire
-% column width. Tex can place it where it fits best.
-%-----------------------------------------------------------------------------------
+% This command declaration is overwriting the default LaTeX \picture command.
 \ExplSyntaxOn
-\DeclareDocumentCommand{\columnpicture}{ m O{0.99\columnwidth} o }{
-	\begin{figure}[H]
-		\centering
-		% checking if the value is empty
-		\tl_if_empty:nTF{#2}
-		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
-		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
-		\IfNoValueF{#3}										% optional caption.
-		{
-			\caption*{#3}
-		}
-	\end{figure}
+\DeclareDocumentCommand{\picture}{ o m o }{%
+	\pgfkeys{/picture, default, #1}%
+	% Expand the variable with the float placement manually.
+	% The figure-environment can't handle this by default.
+	\expandafter\figure\expandafter[\pictureFloat]
+		% Insert the graphics for the picture.
+		\includegraphics[width=\pictureWidth, \pictureAlign]{#2}
+		% Optional caption (if the [] is not present in the command
+		% it'll skip the caption.
+		\IfNoValueF{#3}{\caption*{#3}}
+	\endfigure
 }
 \ExplSyntaxOff
-
-
-%%----------------------------------------------------------------------------------
-% Almost the same as the columnpicture command, but with much more strict placement
-% arguments. Tex should place it exactly where it is wanted.
-%-----------------------------------------------------------------------------------
-\ExplSyntaxOn
-\DeclareDocumentCommand{\picture}{ m O{0.99\columnwidth} o }{
-	\begin{figure*}[ht!]
-		\centering
-		% checking if the value is empty
-		\tl_if_empty:nTF{#2}
-		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
-		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
-		\IfNoValueF{#3}										% optional caption.
-		{
-			\caption*{#3}
-		}
-	\end{figure*}
-}
-\ExplSyntaxOff
-
-
-%%----------------------------------------------------------------------------------
-%
-%-----------------------------------------------------------------------------------
-\ExplSyntaxOn
-\DeclareDocumentCommand{\toppicture}{ m O{0.99\columnwidth} o }{
-	\begin{figure*}[t!]
-		\centering
-		% checking if the value is empty
-		\tl_if_empty:nTF{#2}
-		{ \includegraphics[width=0.99\columnwidth]{#1} } 	% if empty
-		{ \includegraphics[width=#2]{#1} }					% if not, use default or given value
-		\IfNoValueF{#3}
-		{
-			\caption*{#3}
-		}
-	\end{figure*}
-}
-\ExplSyntaxOff
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -522,7 +503,7 @@
 	\hfill{\large\ #2}
 	\IfNoValueTF{#3}
 	{ \newpage }
-	{ \newline #3 }
+	{ #3 }
 }
 
 
